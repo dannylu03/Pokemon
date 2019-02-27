@@ -19,21 +19,27 @@ class Game:
         self.load_data()
 
     def load_data(self):
+        # Opens the map.txt file in the same folder as this file
         game_folder = path.dirname(__file__)
-        self.map_data = []
-        with open(path.join(game_folder, 'map.txt'), 'rt') as f:
+        self.map_layout = []
+        with open(path.join(game_folder, 'map.txt'), 'rt') as f: # Opens the .txt file, reads it then appends all the lines to the map list
             for line in f:
-                self.map_data.append(line)
+                self.map_layout.append(line)
 
     def setup(self):
         # sets up the game and necessary vars
         # Creates 2 sprite groups for mass drawing so you don't have to draw each individual Sprite to the screen
         self.all_sprites = pygame.sprite.Group() # Holds all the sprites
         self.walls = pygame.sprite.Group() # Holds all the walls in the game to easily control collision and graphics
-        for row, tiles in enumerate(self.map_data):
+
+        # Sets a counter for row, tiles, col, and tile
+        for row, tiles in enumerate(self.map_layout):
             for col, tile in enumerate(tiles):
+                # 1 Represnts a wall
                 if tile == '1':
                     Wall(self, col, row)
+                    
+                # Sets the player's spawnpoint
                 if tile == 'P':
                     self.player = Player(self, col, row)
 
